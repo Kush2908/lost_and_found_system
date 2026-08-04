@@ -205,7 +205,7 @@ const Home = () => {
                                 <article key={item.id} className="item-card">
                                     <div className="item-card-image">
                                         {item.image_path ? (
-                                            <img src={`http://localhost:5000/${item.image_path}`} alt={item.title} />
+                                            <img src={item.image_path.startsWith('http') ? item.image_path : `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${item.image_path}`} alt={item.title} />
                                         ) : (
                                             <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#e2e8f0', fontSize: '3rem' }}>
                                                 📷

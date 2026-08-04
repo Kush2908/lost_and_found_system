@@ -3,15 +3,8 @@ const router = express.Router();
 const itemController = require('../controllers/itemController');
 const { requireLogin } = require('../middleware/auth');
 const multer = require('multer');
-const path = require('path');
+const { storage } = require('../config/cloudinary');
 
-const storage = multer.diskStorage({
-  destination: 'uploads/',
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    cb(null, 'item_' + Date.now() + '_' + Math.round(Math.random()*1e9) + ext);
-  }
-});
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 },
@@ -35,3 +28,4 @@ router.post('/', requireLogin, upload.single('image'), itemController.createItem
 router.delete('/:id', requireLogin, itemController.deleteItem);
 
 module.exports = router;
+

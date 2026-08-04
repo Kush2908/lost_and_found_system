@@ -101,7 +101,7 @@ const ItemDetails = () => {
             <div className="detail-grid card" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 400px) 1fr', gap: '2rem', padding: '2rem' }}>
                 <div style={{ position: 'relative', borderRadius: '10px', overflow: 'hidden', background: 'var(--bg-secondary)', aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {item.image_path ? (
-                        <img src={`http://localhost:5000/${item.image_path}`} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <img src={item.image_path.startsWith('http') ? item.image_path : `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${item.image_path}`} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
                         <div className="no-image-large" style={{ fontSize: '5rem' }}>📷</div>
                     )}
