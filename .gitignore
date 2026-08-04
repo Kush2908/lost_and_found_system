@@ -1,0 +1,23 @@
+.env
+.env.local
+
+vendor/
+node_modules/
+
+.vscode/
+.idea/
+
+*.log
+
+uploads/*
+!uploads/.gitkeep
+
+# System & IDE defaults
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+error_log
+*.cache
