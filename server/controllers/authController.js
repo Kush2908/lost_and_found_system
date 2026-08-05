@@ -24,7 +24,11 @@ exports.register = async (req, res) => {
 
     const userPayload = { id: newUser._id, username, email, role: 'user', full_name };
     const token = jwt.sign(userPayload, process.env.JWT_SECRET || 'your_jwt_secret_here', { expiresIn: '1d' });
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, { 
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    });
     res.json({ message: 'Account created successfully! Welcome, ' + full_name + '!', user: userPayload });
   } catch (err) {
     console.error(err);
@@ -45,7 +49,11 @@ exports.login = async (req, res) => {
 
     const payload = { id: user._id, username: user.username, email: user.email, role: user.role, full_name: user.full_name };
     const token = jwt.sign(payload, process.env.JWT_SECRET || 'your_jwt_secret_here', { expiresIn: '1d' });
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, { 
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    });
     res.json({ message: 'Welcome back, ' + user.full_name + '!', user: payload });
   } catch (err) {
     console.error(err);
@@ -54,7 +62,11 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie('token');
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+  });
   res.json({ message: 'Logged out successfully' });
 };
 
