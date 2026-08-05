@@ -55,7 +55,11 @@ const Register = () => {
             await api.post('/auth/register', formData);
             await login(formData.username, formData.password);
         } catch (err) {
-            setError(err.response?.data?.error || err.response?.data?.message || 'Registration failed');
+            if (!err.response) {
+                setError('Cannot connect to the server. Please check that the API URL is correct and the backend is running.');
+            } else {
+                setError(err.response.data?.error || err.response.data?.message || 'Registration failed');
+            }
         } finally {
             setLoading(false);
         }
