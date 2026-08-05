@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import api from '../services/api.js';
 import { useAuth } from '../context/AuthContext';
 
@@ -23,8 +23,6 @@ const Home = () => {
     };
 
     const [filters, setFilters] = useState(initialFilters);
-    const [categories, setCategories] = useState([]);
-    const [locations, setLocations] = useState([]);
 
     const isFiltered = Object.keys(initialFilters).some(key => key !== 'page' && initialFilters[key] !== '');
 
@@ -45,13 +43,6 @@ const Home = () => {
             if(statsRes.data) {
                 setStats(statsRes.data);
             }
-
-            const [catRes, locRes] = await Promise.all([
-                api.get('/public/categories'),
-                api.get('/public/locations')
-            ]);
-            setCategories(catRes.data || []);
-            setLocations(locRes.data || []);
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
@@ -154,10 +145,7 @@ const Home = () => {
                                 <input type="text" name="search" className="form-control" placeholder="Search by title or description..." value={filters.search} onChange={handleFilterChange} />
                             </div>
                             <div className="form-group">
-                                <select name="category" className="form-control" value={filters.category} onChange={handleFilterChange}>
-                                    <option value="">All Categories</option>
-                                    {categories.map(c => <option key={c._id} value={c.name}>{c.name}</option>)}
-                                </select>
+                                <input type="text" name="category" className="form-control" placeholder="Category" value={filters.category} onChange={handleFilterChange} />
                             </div>
                             <div className="form-group">
                                 <select name="type" className="form-control" value={filters.type} onChange={handleFilterChange}>
@@ -167,10 +155,7 @@ const Home = () => {
                                 </select>
                             </div>
                             <div className="form-group">
-                                <select name="location" className="form-control" value={filters.location} onChange={handleFilterChange}>
-                                    <option value="">All Locations</option>
-                                    {locations.map(l => <option key={l._id} value={l.name}>{l.name}</option>)}
-                                </select>
+                                <input type="text" name="location" className="form-control" placeholder="Location" value={filters.location} onChange={handleFilterChange} />
                             </div>
                             <div className="form-group">
                                 <input type="date" name="date" className="form-control" value={filters.date || filters.date_from} onChange={handleFilterChange} aria-label="Filter by date" />
