@@ -13,15 +13,22 @@ const connectDB = require('./config/mongoDb');
 const Item = require('./models/Item');
 const Claim = require('./models/Claim');
 
-// Connect to MongoDB
-connectDB();
-
 const app = express();
 
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
 }));
+
+// Ensure DB connection before handling any requests
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(500).json({ error: 'Database connection failed' });
+  }
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
