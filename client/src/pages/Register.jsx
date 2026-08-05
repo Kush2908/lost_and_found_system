@@ -74,15 +74,15 @@ const Register = () => {
                 <form onSubmit={handleRegister}>
                     <div className="form-group">
                         <label htmlFor="full_name">Full Name <span aria-hidden="true">*</span></label>
-                        <input type="text" id="full_name" className="form-control" placeholder="John Doe" value={formData.full_name} onChange={handleChange} required />
+                        <input type="text" id="full_name" className="form-control" placeholder="ABCD" value={formData.full_name} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
                         <label htmlFor="username">Username <span aria-hidden="true">*</span></label>
-                        <input type="text" id="username" className="form-control" placeholder="johndoe123" value={formData.username} onChange={handleChange} required minLength="3" pattern="[a-zA-Z0-9_]+" title="Only letters, numbers, and underscores allowed" />
+                        <input type="text" id="username" className="form-control" placeholder="abcd123" value={formData.username} onChange={handleChange} required minLength="3" pattern="[a-zA-Z0-9_]+" title="Only letters, numbers, and underscores allowed" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email Address <span aria-hidden="true">*</span></label>
-                        <input type="email" id="email" className="form-control" placeholder="john@example.com" value={formData.email} onChange={handleChange} required />
+                        <input type="email" id="email" className="form-control" placeholder="abcd@example.com" value={formData.email} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
                         <label htmlFor="phone">Phone Number</label>

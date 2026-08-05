@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api.js';
 
@@ -19,25 +19,6 @@ const Report = () => {
     const [loading, setLoading] = useState(false);
     
     const fileInputRef = useRef(null);
-
-    const [categories, setCategories] = useState([]);
-    const [locations, setLocations] = useState([]);
-
-    useEffect(() => {
-        const fetchOptions = async () => {
-            try {
-                const [catRes, locRes] = await Promise.all([
-                    api.get('/public/categories'),
-                    api.get('/public/locations')
-                ]);
-                setCategories(catRes.data || []);
-                setLocations(locRes.data || []);
-            } catch (err) {
-                console.error("Failed to fetch categories/locations", err);
-            }
-        };
-        fetchOptions();
-    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -144,10 +125,7 @@ const Report = () => {
                     <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
                         <div className="form-group" style={{ marginBottom: 0 }}>
                             <label>Category <span aria-hidden="true">*</span></label>
-                            <select name="category" className="form-control" value={formData.category} onChange={handleChange} required>
-                                <option value="">Select a category</option>
-                                {categories.map(c => <option key={c._id} value={c.name}>{c.name}</option>)}
-                            </select>
+                            <input type="text" name="category" className="form-control" placeholder="e.g., ID Card" value={formData.category} onChange={handleChange} required />
                         </div>
                         <div className="form-group" style={{ marginBottom: 0 }}>
                             <label>Date {selectedType === 'lost' ? 'Lost' : 'Found'} <span aria-hidden="true">*</span></label>
@@ -157,10 +135,7 @@ const Report = () => {
 
                     <div className="form-group">
                         <label>Location {selectedType === 'lost' ? 'Lost' : 'Found'} <span aria-hidden="true">*</span></label>
-                        <select name="location" className="form-control" value={formData.location} onChange={handleChange} required>
-                            <option value="">Select location</option>
-                            {locations.map(l => <option key={l._id} value={l.name}>{l.name}</option>)}
-                        </select>
+                        <input type="text" name="location" className="form-control" placeholder="e.g., Library" value={formData.location} onChange={handleChange} required />
                     </div>
 
                     <div className="form-group">
